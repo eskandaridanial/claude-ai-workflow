@@ -24,10 +24,12 @@
 - Task status: read from task files — `[x]` = DONE, no checkbox or `[ ]` = PENDING/IN_PROGRESS
 
 **Timestamps (state.json):**
-- Read timestamps from `.seed/{number}/state.json` if it exists
+- `where` creates `.seed/{number}/state.json` immediately when invoked with a specific seed
+- If state.json does not exist, it is created with null timestamps for all stages
 - If a stage is complete but not in state.json, add it with current timestamp
 - If a task is complete but not in state.json, add it with current timestamp
 - Timestamps in ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
+- Use `null` for not-yet-completed stages
 
 ---
 
@@ -56,13 +58,35 @@ For each seed:
 
 **This step runs when a specific seed number is provided (e.g., `/where 001`).**
 
-After determining stage completion, create or update `.seed/{number}/state.json`:
+**Immediately create state.json if it does not exist:**
 
-1. **If state.json does not exist:** Create it with current timestamps for all completed stages
+When `/where {seed}` is invoked for a seed that exists but has no `state.json`, create `state.json` immediately with:
+- The seed number
+- `null` for all stage timestamps (not yet completed)
+- Empty tasks object
+
+**Then update state based on current completion:**
+
+After creating (or if exists), compare against current state and add missing timestamps for newly completed stages:
+
+1. **If state.json does not exist:** Create it with seed and null timestamps, then update with current completion status
 2. **If state.json exists:** Compare against current state and add missing timestamps for newly completed stages
 3. **Write the updated state.json** back to the seed directory
 
-**state.json schema:**
+**Initial state.json schema (new seed with no completed stages):**
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": null,
+    "prd": null,
+    "issues": null
+  },
+  "tasks": {}
+}
+```
+
+**state.json schema (with completed stages):**
 ```json
 {
   "seed": "001",
@@ -79,6 +103,8 @@ After determining stage completion, create or update `.seed/{number}/state.json`
 ```
 
 **Rules:**
+- Create state.json immediately when seed exists but state.json does not
+- Use `null` for not-yet-completed stages (not absent)
 - Only add timestamps for stages/tasks that are DONE
 - Do not overwrite existing timestamps
 - Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`

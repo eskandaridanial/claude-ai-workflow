@@ -39,6 +39,30 @@ Resolve the seed number:
 
 Read the task file from `.seed/{number}/tasks/NNN-*.md`.
 
+### 1.5. Initialize or update state.json
+
+**Immediately when starting with a specific seed and task:**
+
+1. Check if `.seed/{number}/state.json` exists
+2. If it does NOT exist, create it immediately with:
+   - The seed number
+   - All stages set to `null`
+   - Empty tasks object
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": null,
+    "prd": null,
+    "issues": null
+  },
+  "tasks": {}
+}
+```
+
+3. If it exists, do not modify - just read it to understand current state
+
 ### 2. Check blockers
 
 Read the "Blocked by" field in the task file.
@@ -125,6 +149,34 @@ After implementation:
 - If any criterion could not be met, explain why and leave it unchecked with a note.
 - Do not modify the parent PRD or other task files.
 - If the implementation revealed scope that belongs in a new task, describe it briefly — do not create the task file yourself. Let the user decide whether to add it via `issues`.
+
+### 6.5. Update state.json
+
+After successfully completing the task (all acceptance criteria checked):
+1. Read the existing `.seed/{number}/state.json`
+2. Add an entry to the `tasks` object with the task ID and current timestamp
+3. Write the updated state.json back
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": { "completed": "2026-06-14T10:30:00Z" },
+    "prd": { "completed": "2026-06-14T10:45:00Z" },
+    "issues": { "completed": "2026-06-14T11:00:00Z" }
+  },
+  "tasks": {
+    "001-setup": { "completed": "2026-06-14T11:15:00Z" }
+  }
+}
+```
+
+**Rules:**
+- Only add timestamp when the task is successfully completed
+- Use the task filename (without .md) as the task key (e.g., "001-setup")
+- Do not overwrite existing task timestamps
+- Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
+- Use current time when creating the timestamp
 
 ---
 

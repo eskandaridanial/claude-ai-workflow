@@ -43,6 +43,32 @@ Resolve the seed number:
 
 All output goes to `.seed/{number}/prd.md`.
 
+### 1.5. Initialize or update state.json
+
+**Immediately when starting with a specific seed:**
+
+1. Check if `.seed/{number}/state.json` exists
+2. If it does NOT exist, create it immediately with:
+   - The seed number
+   - `grill` stage set to `null` (not yet completed - assumes grill ran first)
+   - `prd` stage set to `null` (not yet completed)
+   - `issues` stage set to `null`
+   - Empty tasks object
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": null,
+    "prd": null,
+    "issues": null
+  },
+  "tasks": {}
+}
+```
+
+3. If it exists, do not modify - just read it to understand current state
+
 ### 2. Read the requirements file
 
 Read `.seed/{number}/requirements.md` to understand what `grill` extracted.
@@ -60,6 +86,31 @@ Using the requirements and your understanding of the codebase, generate a compre
 ### 5. Write the PRD
 
 Write the PRD to `.seed/{number}/prd.md`. Create the directory if it doesn't exist.
+
+### 5.5. Update state.json
+
+After successfully writing prd.md:
+1. Read the existing `.seed/{number}/state.json`
+2. Update the `prd` stage with the current timestamp
+3. Write the updated state.json back
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": { "completed": "2026-06-14T10:30:00Z" },
+    "prd": { "completed": "2026-06-14T10:45:00Z" },
+    "issues": null
+  },
+  "tasks": {}
+}
+```
+
+**Rules:**
+- Only add timestamp when the stage is successfully completed
+- Do not overwrite existing timestamps
+- Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
+- Use current time when creating the timestamp
 
 ---
 

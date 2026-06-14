@@ -39,6 +39,30 @@ Resolve the seed number:
 
 All output goes to `.seed/{number}/tasks/`.
 
+### 1.5. Initialize or update state.json
+
+**Immediately when starting with a specific seed:**
+
+1. Check if `.seed/{number}/state.json` exists
+2. If it does NOT exist, create it immediately with:
+   - The seed number
+   - All stages set to `null`
+   - Empty tasks object
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": null,
+    "prd": null,
+    "issues": null
+  },
+  "tasks": {}
+}
+```
+
+3. If it exists, do not modify - just read it to understand current state
+
 ### 2. Read the PRD
 
 Read `.seed/{number}/prd.md` to understand the full requirements.
@@ -94,6 +118,31 @@ Number tasks starting from `001`, incrementing by one. Check what files already 
 Create files in dependency order (blockers first) so you can reference real filenames in the "Blocked by" field.
 
 Do NOT use `gh issue create` or any GitHub CLI commands. Do NOT reference GitHub issue numbers. Use local filenames for all cross-references.
+
+### 6.5. Update state.json
+
+After successfully creating all task files:
+1. Read the existing `.seed/{number}/state.json`
+2. Update the `issues` stage with the current timestamp
+3. Write the updated state.json back
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": { "completed": "2026-06-14T10:30:00Z" },
+    "prd": { "completed": "2026-06-14T10:45:00Z" },
+    "issues": { "completed": "2026-06-14T11:00:00Z" }
+  },
+  "tasks": {}
+}
+```
+
+**Rules:**
+- Only add timestamp when the stage is successfully completed
+- Do not overwrite existing timestamps
+- Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
+- Use current time when creating the timestamp
 
 ---
 

@@ -40,6 +40,31 @@ Resolve the seed number:
 
 All output goes to `.seed/{number}/requirements.md`.
 
+### 1.5. Initialize or update state.json
+
+**Immediately when starting with a specific seed:**
+
+1. Check if `.seed/{number}/state.json` exists
+2. If it does NOT exist, create it immediately with:
+   - The seed number
+   - `grill` stage set to `null` (not yet completed)
+   - Other stages set to `null`
+   - Empty tasks object
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": null,
+    "prd": null,
+    "issues": null
+  },
+  "tasks": {}
+}
+```
+
+3. If it exists, do not modify - just read it to understand current state
+
 ### 2. Read the seed init.md
 
 Read the seed init.md from `.seed/{number}/init.md` to understand the context of the task.
@@ -74,6 +99,31 @@ Actively look for under-specified areas:
 ### 6. Write requirements
 
 When shared understanding is reached, write structured requirements to `.seed/{number}/requirements.md`.
+
+### 6.5. Update state.json
+
+After successfully writing requirements.md:
+1. Read the existing `.seed/{number}/state.json`
+2. Update the `grill` stage with the current timestamp
+3. Write the updated state.json back
+
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": { "completed": "2026-06-14T10:30:00Z" },
+    "prd": null,
+    "issues": null
+  },
+  "tasks": {}
+}
+```
+
+**Rules:**
+- Only add timestamp when the stage is successfully completed
+- Do not overwrite existing timestamps
+- Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
+- Use current time when creating the timestamp
 
 ---
 

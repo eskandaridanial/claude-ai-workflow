@@ -1,7 +1,7 @@
-# Seed: 003 — Sample task: Add a string utility function
+# Seed: 001 — Sample task: Add a string utility function
 
 ## Meta
-id:   003
+id:   001
 type: task
 
 ## Goal
