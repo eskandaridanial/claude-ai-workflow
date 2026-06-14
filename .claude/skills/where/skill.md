@@ -52,7 +52,39 @@ For each seed:
    - Count AFK vs HITL tasks (from task frontmatter or content)
    - Identify blocked tasks (tasks with `blocked_by` referencing incomplete tasks)
 
-### 3. Format output
+### 3. Create or update state.json
+
+**This step runs when a specific seed number is provided (e.g., `/where 001`).**
+
+After determining stage completion, create or update `.seed/{number}/state.json`:
+
+1. **If state.json does not exist:** Create it with current timestamps for all completed stages
+2. **If state.json exists:** Compare against current state and add missing timestamps for newly completed stages
+3. **Write the updated state.json** back to the seed directory
+
+**state.json schema:**
+```json
+{
+  "seed": "001",
+  "stages": {
+    "grill": { "completed": "2026-06-14T10:30:00Z" },
+    "prd": { "completed": "2026-06-14T10:45:00Z" },
+    "issues": { "completed": "2026-06-14T11:00:00Z" }
+  },
+  "tasks": {
+    "001-setup": { "completed": "2026-06-14T11:15:00Z" },
+    "002-auth": { "completed": "2026-06-14T11:20:00Z" }
+  }
+}
+```
+
+**Rules:**
+- Only add timestamps for stages/tasks that are DONE
+- Do not overwrite existing timestamps
+- Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
+- Use current time when creating new timestamps
+
+### 4. Format output
 
 **`/where` (all seeds summary):**
 ```
@@ -99,7 +131,7 @@ Note: Timestamps are read from `.seed/{number}/state.json`. If state.json doesn'
 5. If all tasks complete, show "All tasks complete"
 6. For each task, show: command to run, task title, type, blocked status
 
-### 4. Handle seed not found
+### 5. Handle seed not found
 
 If `/where 999` is invoked and seed 999 does not exist:
 ```
@@ -107,7 +139,7 @@ Seed 999: not found
 No seed directory exists at .seed/999/
 ```
 
-### 5. Emit Status Block
+### 6. Emit Status Block
 
 After completing, emit a trailing Status Block.
 
