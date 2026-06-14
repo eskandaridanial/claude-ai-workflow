@@ -45,6 +45,10 @@ Read `.seed/{number}/prd.md` to understand the full requirements.
 
 Also read `.seed/{number}/requirements.md` for additional context.
 
+**Important: Once you have read these files, do NOT read them again in this session.** If you find yourself about to re-read the same files, move to step 3 immediately. Re-reading files without taking action is a loop.
+
+**Important: Once you have decided to create the task files, proceed to create them immediately. Do not re-read the PRD or requirements before creating each file - you have already read what you need.**
+
 ### 3. Explore the codebase (optional)
 
 If you have not already explored the codebase, do so to understand the current state of the code.
@@ -77,11 +81,13 @@ Ask the user:
 - Should any slices be merged or split further?
 - Are the correct slices marked as HITL and AFK?
 
-Iterate until the user approves the breakdown.
+Iterate until the user approves the breakdown. Recognized approval phrases include: "yes", "proceed", "sounds good", "approve", "looks good", "go ahead", "do it", or any clear affirmative response. Once the user approves, immediately move to step 6 - do NOT ask follow-up questions.
 
 ### 6. Create the task files
 
 For each approved slice, write a markdown file in `.seed/{number}/tasks/` using the naming pattern `NNN-short-title.md` (e.g. `001-add-oauth2-providers.md`).
+
+**Important: Once you have decided to create a task file, proceed to create it immediately. Do not re-read the PRD or other files before creating each file - you have already read what you need.**
 
 Number tasks starting from `001`, incrementing by one. Check what files already exist in `.seed/{number}/tasks/` and continue from the next available number. Zero-pad to 3 digits.
 

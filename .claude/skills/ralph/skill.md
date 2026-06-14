@@ -55,7 +55,9 @@ Before touching any code, read:
 - `.seed/{number}/requirements.md` — requirements from `grill`
 - The task file itself — acceptance criteria, user stories addressed
 
-Explore the relevant parts of the codebase to understand the current state. Do not assume — verify.
+**Important: Once you have read these files, do NOT read them again in this session.** If you find yourself about to re-read the same files, skip to step 4 immediately. Re-reading files without taking action is a loop.
+
+**Important: Once you have decided to make an edit, proceed to make it immediately. Do not re-read files before editing - you have already read what you need.**
 
 ### 4. Check confidence threshold
 
@@ -83,6 +85,8 @@ The task can be implemented and verified without human interaction.
    - If any validation fails, emit `status: FAILED` and halt
 4. **Reject green-red anti-pattern**: if `tdd` returns `red_green_refactor_order: false`, emit `status: FAILED` — tests were written after implementation, which is a contract violation
 5. Implement the slice end-to-end — schema, logic, API, tests — as described in the task.
+
+**Important: Once you have decided to implement, proceed to edit immediately. Do not re-read files before editing - you have already read what you need.**
 6. Run tests and confirm they pass.
 7. Update the task file: check off each completed acceptance criterion (`- [x]`).
 8. Report what was done in a short summary. No approval needed.
@@ -107,6 +111,8 @@ The task requires a human decision before or during implementation.
    - The options you see, with trade-offs
    - Which option you recommend and why
 4. Wait for the user's response.
+4a. Once the user responds, acknowledge explicitly and move to step 5 immediately.
+4b. Do NOT re-surface the same decision - this would cause a loop.
 5. Once the decision is made, record it in the task file under a `## Decisions` section.
 6. Continue implementing as AFK from that point forward, following the same TDD loop.
 7. Update acceptance criteria checkboxes when done.
