@@ -17,7 +17,6 @@ This document is the source of truth for the `grill` → `prd` → `issues` → 
 
 | Skill | Role |
 |-------|------|
-| `revise` | Standalone or pipeline-adjacent skill for architectural decisions |
 | `tdd` | Test-driven development with red-green-refactor loop |
 
 ---
@@ -238,7 +237,6 @@ Agents reference each other via inline code spans:
 - `prd`
 - `issues`
 - `ralph`
-- `revise`
 - `tdd`
 
 ---
