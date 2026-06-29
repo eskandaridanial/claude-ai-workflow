@@ -109,6 +109,40 @@ Run `/exec` once per task, working through your task list in order.
 
 ---
 
+### 5. `/state` —  Check Progress
+
+This stage tells you where things stand — nothing more. It's read-only: it never changes any file, and it never tells you what to run next. It just reports.
+
+Run it with no arguments to see every session at a glance:
+```
+Session   Stage      Tasks        Overall
+------- -------- ----------- -----------------
+001       exec       2/4 done    in progress
+002       dive       not started in progress
+003       tasks      0/3 done    tasks generated, none started
+```
+
+Run it with a session number for the full breakdown of that session — which stages are done, in progress, or not started, plus the status of every individual task:
+
+```
+Stage      Status        Started              Completed
+--------  ------------  -------------------  -------------------
+dive       completed     2026-06-16T10:01:00Z 2026-06-16T10:45:00Z
+product    completed     2026-06-16T10:46:00Z 2026-06-16T11:20:00Z
+tasks      completed     2026-06-16T11:21:00Z 2026-06-16T11:40:00Z
+
+Task       Status        Started              Completed
+--------  ------------  -------------------  -------------------
+001        completed     2026-06-16T12:00:00Z 2026-06-16T12:30:00Z
+002        completed     2026-06-16T12:31:00Z 2026-06-16T13:00:00Z
+003        in_progress   2026-06-16T13:01:00Z —
+004        not_started   —                    —
+```
+
+If a stage is marked stale — meaning something upstream changed after that stage already ran — /state will call it out explicitly so you know not to trust that output until it's regenerated.
+
+---
+
 ## Typical Flow
 
 ```
